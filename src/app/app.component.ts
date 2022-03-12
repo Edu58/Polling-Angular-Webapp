@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Article } from './article/article.model';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,25 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Reddit-App';
+  
+  articles: Article[] = [];
+
+  constructor() {}
+
+  addArticle(title: HTMLInputElement, link: HTMLInputElement):boolean {
+    console.log( `Adding article ${ title.value } and link ${ link.value }` )
+
+    this.articles.push( new Article( title.value, link.value, 0 ) )
+
+    // clear fields
+    title.value = ''
+    link.value = ''
+
+    return false
+  }
+
+  sortedArticles(): Article[] {
+    return this.articles.sort((a: Article, b: Article): number => b.votes - a.votes)
+  }
+  
 }
